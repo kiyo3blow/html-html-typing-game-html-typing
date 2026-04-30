@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>&#x30bf;&#x30a4;&#x30d4;&#x30f3;&#x30b0;&#x30af;&#x30a8;&#x30b9;&#x30c8;</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="app-shell">
+    <section id="startScreen" class="screen screen-active" aria-labelledby="gameTitle">
+      <p class="eyebrow">Typing Quest</p>
+      <h1 id="gameTitle">&#x30bf;&#x30a4;&#x30d4;&#x30f3;&#x30b0;&#x30af;&#x30a8;&#x30b9;&#x30c8;</h1>
+      <p class="lead">&#x30e2;&#x30fc;&#x30c9;&#x3092;&#x9078;&#x3093;&#x3067;&#x3001;60&#x79d2;&#x306e;&#x30bf;&#x30a4;&#x30d4;&#x30f3;&#x30b0;&#x4fee;&#x884c;&#x3092;&#x59cb;&#x3081;&#x3088;&#x3046;&#x3002;</p>
+
+      <div class="mode-select" role="radiogroup" aria-label="&#x30e2;&#x30fc;&#x30c9;&#x9078;&#x629e;">
+        <button id="phraseModeButton" class="mode-card mode-card-active" type="button" data-mode="phrase" aria-pressed="true">
+          <span>&#x6587;&#x7ae0;&#x30bf;&#x30a4;&#x30d4;&#x30f3;&#x30b0;</span>
+          <small>&#x65e5;&#x672c;&#x8a9e;&#x306e;&#x304a;&#x984c;&#x3092;&#x30ed;&#x30fc;&#x30de;&#x5b57;&#x3067;&#x5165;&#x529b;</small>
+        </button>
+        <button id="keyModeButton" class="mode-card" type="button" data-mode="key" aria-pressed="false">
+          <span>&#x4e00;&#x6587;&#x5b57;&#x30ad;&#x30fc;&#x30dc;&#x30fc;&#x30c9;&#x7df4;&#x7fd2;</span>
+          <small>PC&#x306e;&#x7269;&#x7406;&#x30ad;&#x30fc;&#x30dc;&#x30fc;&#x30c9;&#x5411;&#x3051;</small>
+        </button>
+      </div>
+
+      <button id="startButton" class="primary-button" type="button">&#x30b9;&#x30bf;&#x30fc;&#x30c8;</button>
+      <p class="hint">Enter&#x30ad;&#x30fc;&#x3067;&#x3082;&#x958b;&#x59cb;</p>
+    </section>
+
+    <section id="gameScreen" class="screen" aria-label="&#x30bf;&#x30a4;&#x30d4;&#x30f3;&#x30b0;&#x753b;&#x9762;">
+      <div class="status-bar" aria-live="polite">
+        <div>
+          <span class="status-label">MODE</span>
+          <strong id="modeText">&#x6587;&#x7ae0;</strong>
+        </div>
+        <div>
+          <span class="status-label">TIME</span>
+          <strong id="timeText">60</strong>
+        </div>
+        <div>
+          <span class="status-label">SCORE</span>
+          <strong id="scoreText">0</strong>
+        </div>
+        <div>
+          <span class="status-label">OK</span>
+          <strong id="correctText">0</strong>
+        </div>
+        <div>
+          <span class="status-label">MISS</span>
+          <strong id="missText">0</strong>
+        </div>
+      </div>
+
+      <div id="enemyStage" class="enemy-stage" aria-label="&#x6575;&#x30ad;&#x30e3;&#x30e9;&#x30af;&#x30bf;&#x30fc;">
+        <span id="enemySprite" class="enemy-sprite" aria-hidden="true">&#x1f47e;</span>
+        <div class="enemy-hp" aria-label="&#x30e2;&#x30f3;&#x30b9;&#x30bf;&#x30fc;HP">
+          <span id="enemyHpBar" class="enemy-hp-bar"></span>
+        </div>
+        <span class="enemy-caption">&#x5012;&#x3057;&#x305f;&#x6575; <strong id="defeatedText">0</strong></span>
+      </div>
+
+      <div id="phraseStage" class="typing-stage">
+        <p id="phraseText" class="phrase">&#x3042;&#x308a;&#x304c;&#x3068;&#x3046;</p>
+        <p id="readingText" class="reading-text"></p>
+        <p id="romajiGuide" class="romaji-guide" aria-label="&#x5165;&#x529b;&#x30ac;&#x30a4;&#x30c9;"></p>
+        <input
+          id="typingInput"
+          class="typing-input"
+          type="text"
+          inputmode="latin"
+          autocomplete="off"
+          autocapitalize="off"
+          spellcheck="false"
+          aria-label="&#x30ed;&#x30fc;&#x30de;&#x5b57;&#x5165;&#x529b;&#x6b04;"
+        >
+      </div>
+
+      <div id="keyStage" class="key-stage" hidden>
+        <p class="mobile-note">&#x3053;&#x306e;&#x30e2;&#x30fc;&#x30c9;&#x306f;PC&#x306e;&#x7269;&#x7406;&#x30ad;&#x30fc;&#x30dc;&#x30fc;&#x30c9;&#x7df4;&#x7fd2;&#x5411;&#x3051;&#x3067;&#x3059;&#x3002;</p>
+        <p class="key-target-label">&#x62bc;&#x3059;&#x30ad;&#x30fc;</p>
+        <p id="keyTarget" class="key-target">A</p>
+        <p class="combo-text">COMBO <strong id="comboText">0</strong></p>
+        <div id="keyboard" class="keyboard" aria-label="QWERTY&#x30ad;&#x30fc;&#x30dc;&#x30fc;&#x30c9;"></div>
+      </div>
+    </section>
+
+    <section id="resultScreen" class="screen" aria-labelledby="resultTitle">
+      <p class="eyebrow">Result</p>
+      <h2 id="resultTitle">&#x7d50;&#x679c;</h2>
+      <div class="result-grid">
+        <div>
+          <span class="status-label">&#x6b63;&#x89e3;&#x6570;</span>
+          <strong id="resultCorrect">0</strong>
+        </div>
+        <div>
+          <span class="status-label">&#x30df;&#x30b9;&#x6570;</span>
+          <strong id="resultMiss">0</strong>
+        </div>
+        <div>
+          <span class="status-label">&#x6b63;&#x78ba;&#x7387;</span>
+          <strong id="resultAccuracy">0%</strong>
+        </div>
+        <div>
+          <span class="status-label">&#x30b9;&#x30b3;&#x30a2;</span>
+          <strong id="resultScore">0</strong>
+        </div>
+        <div id="resultDefeatedRow">
+          <span class="status-label">&#x5012;&#x3057;&#x305f;&#x6575;</span>
+          <strong id="resultDefeated">0</strong>
+        </div>
+        <div id="weakKeyRow">
+          <span class="status-label">&#x82e6;&#x624b;&#x30ad;&#x30fc;</span>
+          <strong id="weakKeyText">-</strong>
+        </div>
+        <div class="wide">
+          <span class="status-label">&#x6700;&#x9ad8;&#x30b9;&#x30b3;&#x30a2;</span>
+          <strong id="bestScoreText">0</strong>
+        </div>
+      </div>
+      <div class="result-actions">
+        <button id="retryButton" class="primary-button" type="button">&#x3082;&#x3046;&#x4e00;&#x5ea6;&#x30d7;&#x30ec;&#x30a4;</button>
+        <button id="resetBestButton" class="ghost-button" type="button">&#x6700;&#x9ad8;&#x30b9;&#x30b3;&#x30a2;&#x524a;&#x9664;</button>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
